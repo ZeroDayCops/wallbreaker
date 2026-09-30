@@ -1,0 +1,8 @@
+export http_proxy="http://13.217.196.158:1001"
+export https_proxy="http://13.217.196.158:1001"
+export HTTP_PROXY="http://13.217.196.158:1001"
+export HTTPS_PROXY="http://13.217.196.158:1001"
+export all_proxy="http://13.217.196.158:1001"
+export ALL_PROXY="http://13.217.196.158:1001"
+export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+export NO_PROXY="localhost,127.0.0.1,localaddress,.localdomain.com"
