@@ -1,72 +1,160 @@
-# Wallbreaker 🛡️⚡
+<div align="center">
 
-> Instant system-wide proxy switcher & network bypass toolkit for Linux desktop and terminal environments.
+```ascii
+ __      __      .__  .__ ___.                         __                  
+/  \    /  \____ |  | |  |\_ |_________   ____ _____  |  | __ ___________  
+\   \/\/   /\__  \|  | |  | | __ \_  __ \_/ __ \\__  \ |  |/ // __ \_  __ \ 
+ \        /  / __ \|  |_|  |_| \_\ \  | \/\  ___/ / __ \|    <\  ___/|  | \/ 
+  \__/\  /  (____  /____/____/___  /__|    \___  >____  /__|_ \\___  >__|    
+       \/        \/              \/            \/     \/     \/    \/        
+```
 
-**Wallbreaker** is a lightweight bash & Python utility engineered to route Linux network traffic through live, verified HTTP/SOCKS proxies with a single on/off toggle. Built to quickly bypass restrictive local networks, captive portals, and campus firewalls on GNOME and terminal environments.
+# ⚡ W A L L B R E A K E R ⚡
+### *Automated Linux Network Redirection & Gateway Evasion Engine*
+
+[![Platform](https://img.shields.io/badge/Platform-Linux%20%2F%20GNOME-000000?style=for-the-badge&logo=linux&logoColor=00FF66)](https://github.com/ZeroDayCops/wallbreaker)
+[![Architecture](https://img.shields.io/badge/Architecture-Bash%20%2B%20Python3-000000?style=for-the-badge&logo=gnubash&logoColor=00FF66)](https://github.com/ZeroDayCops/wallbreaker)
+[![Security Level](https://img.shields.io/badge/Bypass%20Status-Active-00FF66?style=for-the-badge&logo=hackthebox&logoColor=black)](https://github.com/ZeroDayCops/wallbreaker)
+[![License](https://img.shields.io/badge/License-MIT-000000?style=for-the-badge&logo=opensourceinitiative&logoColor=00FF66)](LICENSE)
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png" width="100%">
+</p>
+
+```
+[+] SYSTEM STATUS : ENCRYPTED / TUNNELED
+[+] ACTIVE INTERFACE : ORG.GNOME.SYSTEM.PROXY
+[+] ENCAPSULATION : HTTPS / SOCKS5 CONNECT
+```
+
+</div>
 
 ---
 
-## ⚡ Features
+## 💀 ARCHITECTURAL OVERVIEW
 
-- **One-Command Toggle:** Instantly switch between `on`, `off`, or `toggle` states.
-- **GNOME Desktop System-Wide Integration:** Automatically configures desktop proxy settings (`gsettings`) for browsers like Firefox, Chrome, and system web views.
-- **CLI / Terminal Sync:** Generates a shell environment file (`proxy_env.sh`) providing `http_proxy`, `https_proxy`, and `all_proxy` exports.
-- **Built-in Live Scanner:** Automatically scans and tests proxy pools for HTTPS/SSL tunneling support (`CONNECT` handshake verification) to prevent dead-node hanging.
-- **Zero Heavy Dependencies:** Runs purely using Bash, Python 3 standard library, and `curl`.
+```
+  ┌───────────────────────────────────────────────────────────────┐
+  │                   LOCAL MACHINE (HOST)                        │
+  │                                                               │
+  │   [ Browsers / Apps ]           [ Shell / Terminal CLI ]      │
+  │            │                               │                  │
+  │            ▼                               ▼                  │
+  │   [ org.gnome.system.proxy ]     [ $http_proxy / $all_proxy ] │
+  └────────────┬───────────────────────────────┬──────────────────┘
+               │                               │
+               └───────────────┬───────────────┘
+                               ▼
+  ╔═══════════════════════════════════════════════════════════════╗
+  ║                    W A L L B R E A K E R                      ║
+  ║  ───────────────────────────────────────────────────────────  ║
+  ║   [Threaded Scanner] ──> Tests TLS Handshakes & CONNECT       ║
+  ║   [State Controller] ──> Atomic Switch: ON / OFF / TOGGLE     ║
+  ╚═══════════════════════════════════════════════════════════════╝
+                               │
+                               ▼
+        ┌─────────────────────────────────────────────┐
+        │       CAMPUS / ENTERPRISE FIREWALL          │
+        │   [ DPI / SNI Inspection / DNS Blacklist ]   │
+        └──────────────────────┬──────────────────────┘
+                               │  (Encapsulated Transit)
+                               ▼
+        ┌─────────────────────────────────────────────┐
+        │       SECURE EXIT NODE (Global Relays)      │
+        │           [ Virginia, US / 1001 ]           │
+        └──────────────────────┬──────────────────────┘
+                               │
+                               ▼
+                        [ TARGET WEB ]
+```
 
 ---
 
-## 🚀 Quick Start
+## ⚡ CORE CAPABILITIES
 
-### 1. Clone the Repository
+* **`Autonomous Probe Engine`**: Multi-threaded TCP validation testing live `CONNECT` tunnels on port `443` to ensure zero dropped packets.
+* **`Desktop-Wide Mutation`**: Dynamically writes to GNOME’s deep configuration schema (`gsettings org.gnome.system.proxy`).
+* **`Shell Environment Synchronizer`**: Writes export directives to `proxy_env.sh` for immediate absorption by `curl`, `wget`, `python`, `nmap`, etc.
+* **`Zero Footprint`**: No heavy daemons, no background memory bloat. Operates natively via POSIX Bash and Python3 threading.
+
+---
+
+## 🎮 COMMAND MATRIX
+
 ```bash
-git clone https://github.com/<your-username>/wallbreaker.git
+# Clone the repository
+git clone https://github.com/ZeroDayCops/wallbreaker.git
 cd wallbreaker
 chmod +x wallbreaker.sh
 ```
 
-### 2. Usage
+### Execution Parameters
 
-#### Enable Proxy (Auto-picks a responsive verified proxy)
-```bash
-./wallbreaker.sh on
-```
+| Command | Operational Execution | Terminal Output |
+| :--- | :--- | :--- |
+| `./wallbreaker.sh on` | Probe verified nodes, engage GNOME proxy, generate ENV | `[+] System proxy is now ON.` |
+| `./wallbreaker.sh off` | Flush system proxy, restore clean direct gateway | `[-] System proxy is now OFF.` |
+| `./wallbreaker.sh toggle` | Dynamic state inverter (detects current mode) | `[~] State flipped.` |
+| `./wallbreaker.sh status` | Inspect system parameters, active host, schema keys | Real-time diagnostic dump |
+| `./wallbreaker.sh scan` | Manual multi-threaded hunt through proxy pool | Outputs verified exit points |
 
-#### Enable a Specific Proxy
-```bash
-./wallbreaker.sh on http://13.217.196.158:1001
-```
+---
 
-#### Disable Proxy
-```bash
-./wallbreaker.sh off
-```
+## 💻 CLI INTEGRATION
 
-#### Toggle State
-```bash
-./wallbreaker.sh toggle
-```
+To immediately force the active shell into the tunnel:
 
-#### Check Current Status
-```bash
-./wallbreaker.sh status
-```
-
-#### Apply to Current Terminal Shell
 ```bash
 source ./proxy_env.sh
 ```
 
+Verify your exit identity:
+
+```bash
+curl https://ipinfo.io/json
+```
+
+```json
+{
+  "ip": "13.217.196.158",
+  "city": "Ashburn",
+  "region": "Virginia",
+  "country": "US",
+  "org": "AS14618 Amazon.com, Inc."
+}
+```
+
 ---
 
-## 🌐 System Configuration (Browser Setup)
+## 🌐 APPLICATION COMPATIBILITY
 
-To make sure your web browser respects Wallbreaker's system changes:
+```mermaid
+graph LR
+    WB["WALLBREAKER ENGINE"] --> B["GNOME Bus"]
+    WB --> E["proxy_env.sh"]
 
-* **Firefox:** Go to `Settings` ➔ `Network Settings` ➔ Select **"Use system proxy settings"**.
-* **Chromium / Chrome:** Automatically syncs with GNOME desktop settings.
+    B --> FF["Firefox / Tor"]
+    B --> CR["Chromium / Chrome"]
+    B --> DS["Discord / Desktop Apps"]
+
+    E --> CU["cURL / Wget"]
+    E --> PY["Python / Node.js"]
+    E --> CL["Git / SSH Relays"]
+
+    style WB fill:#000000,stroke:#00FF66,stroke-width:2px,color:#00FF66
+    style B fill:#111111,stroke:#333333,stroke-width:1px,color:#FFFFFF
+    style E fill:#111111,stroke:#333333,stroke-width:1px,color:#FFFFFF
+```
 
 ---
 
-## 📄 License
-MIT License. Free for educational and authorized network testing use.
+## ⚠️ OPERATIONAL DISCLAIMER
+> *This tool is built for legitimate security research, penetration testing against authorized test networks, and evaluating endpoint configuration resiliency. The authors assume no liability for misuse.*
+
+<div align="center">
+
+```
+[ END OF TRANSMISSION // ZERODAYCOPS ]
+```
+
+</div>
